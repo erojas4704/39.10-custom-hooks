@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { v4 as uuid } from "uuid";
-import axios from "axios";
 import PokemonSelect from "./PokemonSelect";
 import PokemonCard from "./PokemonCard";
 import "./PokeDex.css";
@@ -11,10 +10,7 @@ import "./PokeDex.css";
 function PokeDex() {
   const [pokemon, setPokemon] = useState([]);
   const addPokemon = async name => {
-    const response = await axios.get(
-      `https://pokeapi.co/api/v2/pokemon/${name}/`
-    );
-    setPokemon(pokemon => [...pokemon, { ...response.data, id: uuid() }]);
+    setPokemon(pokemon => [...pokemon, { name, key: uuid() }]);
   };
   return (
     <div className="PokeDex">
@@ -24,16 +20,7 @@ function PokeDex() {
       </div>
       <div className="PokeDex-card-area">
         {pokemon.map(cardData => (
-          <PokemonCard
-            key={cardData.id}
-            front={cardData.sprites.front_default}
-            back={cardData.sprites.back_default}
-            name={cardData.name}
-            stats={cardData.stats.map(stat => ({
-              value: stat.base_stat,
-              name: stat.stat.name
-            }))}
-          />
+          <PokemonCard key={cardData.key} name={cardData.name} />
         ))}
       </div>
     </div>

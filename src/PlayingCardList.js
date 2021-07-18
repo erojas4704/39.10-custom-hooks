@@ -9,11 +9,9 @@ import "./PlayingCardList.css";
 function CardTable() {
   const [cards, setCards] = useState([]);
   const addCard = async () => {
-    const response = await axios.get(
-      "https://deckofcardsapi.com/api/deck/new/draw/"
-    );
-    setCards(cards => [...cards, { ...response.data, id: uuid() }]);
+    setCards(cards => [...cards, { id: uuid() }]);
   };
+  
   return (
     <div className="PlayingCardList">
       <h3>Pick a card, any card!</h3>
@@ -22,7 +20,7 @@ function CardTable() {
       </div>
       <div className="PlayingCardList-card-area">
         {cards.map(cardData => (
-          <PlayingCard key={cardData.id} front={cardData.cards[0].image} />
+          <PlayingCard key={cardData.id} />
         ))}
       </div>
     </div>
